@@ -146,16 +146,18 @@ class Board:
 
 	def layout_default(self):
 		return [['r','n','b','q','k','b','n','r'],
-				['p','p','p','p','p','p','p','p'],
-				[' ',' ',' ',' ',' ',' ',' ',' '],
-				[' ',' ',' ',' ',' ',' ',' ',' '],
-				[' ',' ',' ',' ',' ',' ',' ',' '],
-				[' ',' ',' ',' ',' ',' ',' ',' '],
-				['P','P','P','P','P','P','P','P'],
-				['R','N','B','Q','K','B','N','R'],]
+			['p','p','p','p','p','p','p','p'],
+			[' ',' ',' ',' ',' ',' ',' ',' '],
+			[' ',' ',' ',' ',' ',' ',' ',' '],
+			[' ',' ',' ',' ',' ',' ',' ',' '],
+			[' ',' ',' ',' ',' ',' ',' ',' '],
+			['P','P','P','P','P','P','P','P'],
+			['R','N','B','Q','K','B','N','R'],]
 
 	def setup_board(self):
-		self.board_w = (self.square_w*8) # I know its redundant, but useful to break out dimensions
+		# For some reason (self.square_w*8)+(self.square_w/2*2) gives a board that is larger than expected.
+		# I know its redundant, but useful to break out dimensions
+		self.board_w = (self.square_w*8) 
 		self.board = Frame(self.window, width=self.board_w, height=self.board_w, bg="blue")
 		self.board.pack(side=LEFT)
 
