@@ -104,6 +104,30 @@ class Piece:
 	def __init__(self, board):
 		print("started")
 
+class Square:
+
+	def __init__(self, canvas):
+		print("started")
+
+class BoardCanvas:
+	'''
+	BoardCanvas sits within the 'board' frame and 
+	handles the rendering of squares, pieces, and
+	mouse events.
+	'''
+
+	def __init__(self, frame):
+		self.frame = frame
+		self.setup_canvas()
+
+	def setup_canvas(self):
+		self.canvas = Canvas(self.frame.board, width=self.frame.board_w, height=self.frame.board_w, bg="yellow", highlightthickness=0)
+		self.canvas.grid(row=1, column=1, columnspan=8, rowspan=8, padx=0, pady=0, ipadx=0, ipady=0)
+
+	def draw_squares(self):
+		
+
+
 class Board:
 
 	def __init__(self, window):
@@ -114,22 +138,30 @@ class Board:
 		'''
 		self.square_w = 24
 		self.window = window
+		self.board_layout = self.layout_default()
+		print(self.board_layout)
 		self.setup_board()
 		self.setup_file_rank()
-		print("started")
+		self.setup_boardcanvas()
+
+	def layout_default(self):
+		return [['r','n','b','q','k','b','n','r'],
+				['p','p','p','p','p','p','p','p'],
+				[' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' '],
+				[' ',' ',' ',' ',' ',' ',' ',' '],
+				['P','P','P','P','P','P','P','P'],
+				['R','N','B','Q','K','B','N','R'],]
 
 	def setup_board(self):
-		self.board_w = (self.square_w*8)+(self.square_w/2*2) # I know its redundant, but useful to break out dimensions
+		self.board_w = (self.square_w*8) # I know its redundant, but useful to break out dimensions
 		self.board = Frame(self.window, width=self.board_w, height=self.board_w, bg="blue")
 		self.board.pack(side=LEFT)
-		self.setup_canvas()
 
-	def setup_canvas(self):
-		self.canvas = Canvas(self.board, width=self.board_w, height=self.board_w, bg="yellow", highlightthickness=0)
-		self.canvas.grid(row=1, column=1, columnspan=8, rowspan=8)
-
-	def setup_squares(self):
-		return
+	def setup_boardcanvas(self):
+		# The canvas is where we will actually draw the squares and pieces (as well as handle mouse events)
+		self.board_canvas = BoardCanvas(self)
 
 	def setup_file_rank(self):
 		'''
@@ -152,7 +184,6 @@ class Board:
 			label_b = Label(label_frame_b, text=chr(ord('a')+i), font=("Arial", 8))
 			label_b.pack(fill=BOTH, expand=1)
 			label_frame_b.grid(row=9,column=1+i)
-
 		# Rank Labels
 		for i in range(8):
 			# Left labels
@@ -167,5 +198,7 @@ class Board:
 			label_r=Label(label_frame_r, text=str((i-8)*-1), font=("Arial", 8))
 			label_r.pack(fill=BOTH, expand=1)
 			label_frame_r.grid(row=1+i,column=9)
+
+
 
 ui = UI()
